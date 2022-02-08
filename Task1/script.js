@@ -2,15 +2,34 @@
 // Task 1
 
 class Profile{
+    #age = 0;
+    #position = '';
+    #message = '';
     constructor(name, age, position, company, message){
         this.name = name;
-        this.age = age;
-        this.position = position;
+        this.#age = age;
+        this.#position = position;
         this.company = company;
-        this.message = message;
+        this.#message = message;
     }
     profile(){
-        console.log(`${this.name} is ${this.age} years old. He works as a ${this.position} for ${this.company} and says "${this.message}" to everybody! :D`);
+        console.log(`${this.name} is ${this.#age} years old. He works as a ${this.#position} for ${this.company} and says "${this.#message}" to everybody! :D`);
+    }
+    getAge (){return this.#age;}
+    getPosition (){return this.#position;}
+}
+
+class Person extends Profile{
+    #address = '';
+    #contact = '';
+    constructor(name, age, position, company, message, address, contact){
+        super(name, age, position, company, message);
+        this.#address = address;
+        this.#contact = contact;
+    }
+
+    getInfo(){
+        console.log(`${this.name}: ${this.getAge()} | ${this.#address} | ${this.#contact}`);
     }
 }
 
@@ -65,8 +84,11 @@ function main(){
 
     // Classes OOP
     console.log('\n### Classes OOP ###');
-    let person = new Profile("Tiberiu", 21, "Full Stack Developer", "AquaSoft", "Glad to be working with you guys!");
-    person.profile();
+    let profile = new Profile("Tiberiu", 21, "Full Stack Developer", "AquaSoft", "Glad to be working with you guys!");
+    let person = new Person("Iulian", 25, "Full Stack Developer", "AquaSoft", "Glad to be working with you guys!", "Bucuresti", "email@gmail.com");
+    profile.profile();
+    person.getInfo();
+
 }
 
 // Standard Deviation
