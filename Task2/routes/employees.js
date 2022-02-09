@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Employee = require('../models/employee')
 
-// Getting all
+// Getting all employees
 router.get('/', async(req, res) => {
     try{
         const employees = await Employee.find()
@@ -12,12 +12,12 @@ router.get('/', async(req, res) => {
     }
 })
 
-// Getting one
+// Getting an employee
 router.get('/:id', getEmployee, (req, res) => {
     res.json(res.employee)
 })
 
-// Creating one
+// Adding an employee
 router.post('/', async(req, res) => {
     const employee = new Employee({
         Name: req.body.Name,
@@ -36,7 +36,7 @@ router.post('/', async(req, res) => {
     }
 })
 
-// Updating one
+// Updating an employee
 router.patch('/:id', getEmployee, async (req, res) => {
     if(req.body.Name != null){
         res.employee.Name = req.body.Name
@@ -64,7 +64,7 @@ router.patch('/:id', getEmployee, async (req, res) => {
     }
 })
 
-// Deleting one
+// Deleting an employee
 router.delete('/:id', getEmployee, async (req, res) => {
     try {
       await res.employee.remove()
@@ -74,6 +74,7 @@ router.delete('/:id', getEmployee, async (req, res) => {
     }
   })
 
+// Get employee by id
 async function getEmployee(req, res, next){
     let employee
     try{
