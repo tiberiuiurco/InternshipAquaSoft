@@ -2,7 +2,7 @@ GET http://localhost:3000/employees
 
 ###
 
-GET http://localhost:3000/employees/6203c808f9eed28f3966cc31
+GET http://localhost:3000/employees/6203c815c86ff8cd63f38efd
 
 ###
 
@@ -10,17 +10,17 @@ POST http://localhost:3000/employees
 Content-Type: application/json
 
 {
-    "Name": "Teebss",
-    "Adress": "B",
-    "Email": "email@gmail.com",
-    "Hire_date": "02.02.2022",
-    "Salary": 111,
-    "Job_title": "FSD"
+    "Name": "Cosmin Sturzu",
+    "Adress": "Bucuresti, Sectorul 6, Strada A, Blocul 12F",
+    "Email": "cosmins@gmail.com",
+    "Hire_date": "05.05.2021",
+    "Salary": 5000,
+    "Job_title": "Full Stack Developer"
 }
 
 ###
 
-DELETE http://localhost:3000/employees/6203c8de56f85dc188fbb31d
+DELETE http://localhost:3000/employees/6203cb55aa190bc324d25aad
 
 
 ###
@@ -29,6 +29,6 @@ PATCH http://localhost:3000/employees/6203c815c86ff8cd63f38efd
 Content-Type: application/json
 
 {
-    "Name": "New Name"
+    "Name": "Uwuya"
 }
 
