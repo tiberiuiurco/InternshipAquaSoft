@@ -15,8 +15,7 @@ const projectSchema = new mongoose.Schema({
     },
     Description: {
         type: String,
-        required: true,
-        //default: Date.now
+        required: true
     },
     Project_code: {
         type: String,
