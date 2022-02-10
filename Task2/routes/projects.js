@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Project = require('../models/project')
+const Employee = require('../models/employee')
 
 // Getting all projects
 router.get('/', async(req, res) => {
@@ -62,9 +63,22 @@ router.patch('/:id', getProject, async (req, res) => {
 
 // Deleting a project
 router.delete('/:id', getProject, async (req, res) => {
+    var ok = 1;
     try {
-      await res.project.remove()
-      res.json({ message: 'Project Deleted' })
+      const employees = await Employee.find()
+      for(const emp of employees){
+        if(emp.Project_id == req.params.id){
+            ok = 0;
+            console.log("Found!");
+            break;
+        }
+      }
+      if(ok == 1){
+        await res.project.remove()
+        res.json({ message: 'Project Deleted' })
+      }
+      else
+        console.log("We cannot delete the provided project!");
     } catch (err) {
       res.status(500).json({ message: err.message })
     }

@@ -5,7 +5,7 @@ GET http://localhost:3000/projects
 ### Get one employee
 GET http://localhost:3000/employees/6203c815c86ff8cd63f38efd
 ### With JOIN
-GET http://localhost:3000/employees/join/62050abf9800e7de21904a12
+GET http://localhost:3000/employees/join/62051b6a1d91943565b8f992
 ### Get one project
 GET http://localhost:3000/projects/6204e8226683b9dfb4fcffb7
 
@@ -20,7 +20,7 @@ Content-Type: application/json
     "Hire_date": "05.05.2021",
     "Salary": 5000,
     "Job_title": "Full Stack Developer",
-    "Project_id": "620503677f508ab05ef3276a"
+    "Project_id": "6205124b9800e7de21904a27"
 }
 ### Post Project
 POST http://localhost:3000/projects
@@ -37,7 +37,7 @@ Content-Type: application/json
 ### Delete employee
 DELETE http://localhost:3000/employees/62050a4e344869e1d51b0a61
 ### Delete project
-DELETE http://localhost:3000/projects/620503677f508ab05ef3276a
+DELETE http://localhost:3000/projects/6205124b9800e7de21904a27
 
 
 ### Update employee
@@ -48,7 +48,7 @@ Content-Type: application/json
     "Project_id": "6205109c9800e7de21904a19"
 }
 ### Update project
-PATCH http://localhost:3000/projects/620503677f508ab05ef3276a
+PATCH http://localhost:3000/projects/6205124b9800e7de21904a27
 Content-Type: application/json
 
 {
