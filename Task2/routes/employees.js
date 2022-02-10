@@ -17,6 +17,20 @@ router.get('/:id', getEmployee, (req, res) => {
     res.json(res.employee)
 })
 
+// Getting an employee with his project
+router.get('/join/:id', getEmployee, (req, res) => {
+    /*res.employee.populate('Project_id').exec((err, user) => {
+        if(err) return handleError(err);
+        res.json(res.employee.Project_id.body)
+    })*/
+    Employee.findOne({ _id: req.params.id })
+    .populate('Project_id').exec((err, info) => {
+        if(err){return console.error(err);}
+        res.json(info)
+        
+    })
+})
+
 // Adding an employee
 router.post('/', async(req, res) => {
     const employee = new Employee({
@@ -25,7 +39,8 @@ router.post('/', async(req, res) => {
         Email: req.body.Email,
         Hire_date: req.body.Hire_date,
         Salary: req.body.Salary,
-        Job_title: req.body.Job_title
+        Job_title: req.body.Job_title,
+        Project_id: req.body.Project_id
     })
 
     try{
@@ -55,6 +70,9 @@ router.patch('/:id', getEmployee, async (req, res) => {
     }
     if(req.body.Job_title != null){
         res.employee.Job_title = req.body.Job_title
+    }
+    if(req.body.Project_id != null){
+        res.employee.Project_id = req.body.Project_id
     }
     try{
         const updatedEmployee = await res.employee.save()

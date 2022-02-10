@@ -1,11 +1,15 @@
 GET http://localhost:3000/employees
-
 ###
+GET http://localhost:3000/projects
 
+### Get one employee
 GET http://localhost:3000/employees/6203c815c86ff8cd63f38efd
+### With JOIN
+GET http://localhost:3000/employees/join/6204ffe7d60125d6da2f127e
+### Get one project
+GET http://localhost:3000/projects/6204e8226683b9dfb4fcffb7
 
-###
-
+### Post Employee
 POST http://localhost:3000/employees
 Content-Type: application/json
 
@@ -15,20 +19,39 @@ Content-Type: application/json
     "Email": "cosmins@gmail.com",
     "Hire_date": "05.05.2021",
     "Salary": 5000,
-    "Job_title": "Full Stack Developer"
+    "Job_title": "Full Stack Developer",
+    "Project_id": "6204fe44a953b375960e35e5"
+}
+### Post Project
+POST http://localhost:3000/projects
+Content-Type: application/json
+
+{
+    "Project_name": "AquaSoft Projects Management Systems",
+    "Start_date": "11.02.2022",
+    "Planned_end_date": "05.05.2022",
+    "Description": "Creating a system for a better gestion of the active projects.",
+    "Project_code": "AS20523F"
 }
 
-###
+### Delete employee
+DELETE http://localhost:3000/employees/6204ec766269fdf6a497477d
+### Delete project
+DELETE http://localhost:3000/projects/6204eab46683b9dfb4fcffd9
 
-DELETE http://localhost:3000/employees/6203cb55aa190bc324d25aad
 
-
-###
-
+### Update employee
 PATCH http://localhost:3000/employees/6203c815c86ff8cd63f38efd
 Content-Type: application/json
 
 {
-    "Name": "Uwuya"
+    "Name": "Cosmin Pop"
+}
+### Update project
+PATCH http://localhost:3000/projects/6204eb6dc09768a133c7435e
+Content-Type: application/json
+
+{
+    "Project_name": "Bucharest WWY"
 }
 

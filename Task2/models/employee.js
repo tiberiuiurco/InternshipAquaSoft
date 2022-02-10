@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+var Schema = mongoose.Schema
 
 const employeeSchema = new mongoose.Schema({
     Name: {
@@ -24,6 +25,11 @@ const employeeSchema = new mongoose.Schema({
     },
     Job_title: {
         type: String,
+        required: true
+    },
+    Project_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Projects',
         required: true
     },
 })
