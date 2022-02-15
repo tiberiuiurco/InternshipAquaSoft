@@ -1,6 +1,6 @@
-GET http://localhost:3000/employees
+GET http://localhost:5000/employees
 ###
-GET http://localhost:3000/projects
+GET http://localhost:5000/projects
 
 ### Get one employee
 GET http://localhost:3000/employees/6206531e13a8d3a4b9e83782
@@ -27,11 +27,11 @@ POST http://localhost:3000/projects
 Content-Type: application/json
 
 {
-    "Project_name": "AquaSoft Packages",
+    "Project_name": "AquaSoft Packagess",
     "Start_date": "01.01.2023",
     "Planned_end_date": "04.04.2024",
     "Description": "Descriere.",
-    "Project_code": "ASFWQFNN34"
+    "Project_code": "ASFWQFNN345"
 }
 
 ### Delete employee
@@ -48,9 +48,9 @@ Content-Type: application/json
     "Email": "nouaadresa@email.com"
 }
 ### Update project
-PATCH http://localhost:3000/projects/620652a413a8d3a4b9e83776
+PATCH http://localhost:3000/projects/6206526913a8d3a4b9e8376e
 Content-Type: application/json
 
-{
-    "Project_name": "AquaSoft Decelerate"
-}
+[
+    "Project_name": "AquaSoft Projects Management Systemss"
+]

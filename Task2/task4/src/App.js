@@ -4,8 +4,7 @@ import Axios from "axios";
 import { Projects } from './components/projects'
 import { Navb } from './components/Navigation'
 import { Employees } from './components/employees'
-import { Pr } from './components/pr'
-import { AddProject } from './components/addProject'
+import { UpdateProjectModal } from './components/updateProjectModal'
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
@@ -31,10 +30,10 @@ function App() {
               <Employees/>
             </Route>
             <Route path="/projects">
-              <Pr/>
+              <Projects/>
             </Route>
             <Route path="/">
-            <AddProject/>
+              <Employees/>
             </Route>
           </Switch>
         </div>

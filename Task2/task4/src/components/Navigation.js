@@ -8,7 +8,6 @@ export const Navb = () => {
           <Container>
           <Navbar.Brand href="/">AquaSoft Internship</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="/home">Home</Nav.Link>
             <Nav.Link href="/employees">Employees</Nav.Link>
             <Nav.Link href="/projects">Projects</Nav.Link>
           </Nav>
