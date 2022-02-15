@@ -4,13 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "devStart": "nodemon server.js"
+    "devStart": "nodemon server.js",
+    "front": "cd task4 && npm start",
+    "start": "concurrently \"npm run devStart\" \"npm run front\""
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "concurrently": "^7.0.0",
+    "cors": "^2.8.5",
     "express": "^4.17.2",
-    "mongoose": "^6.2.1"
+    "mongoose": "^6.2.1",
+    "node-fetch": "^3.2.0"
   },
   "devDependencies": {
     "dotenv": "^16.0.0",

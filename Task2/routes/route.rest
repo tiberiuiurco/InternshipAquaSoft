@@ -3,55 +3,54 @@ GET http://localhost:3000/employees
 GET http://localhost:3000/projects
 
 ### Get one employee
-GET http://localhost:3000/employees/6203c815c86ff8cd63f38efd
+GET http://localhost:3000/employees/6206531e13a8d3a4b9e83782
 ### With JOIN
-GET http://localhost:3000/employees/join/62051b6a1d91943565b8f992
+GET http://localhost:3000/employees/join/62065d2d01d6745d68c517b8
 ### Get one project
-GET http://localhost:3000/projects/6204e8226683b9dfb4fcffb7
+GET http://localhost:3000/projects/6206529513a8d3a4b9e83774
 
 ### Post Employee
 POST http://localhost:3000/employees
 Content-Type: application/json
 
 {
-    "Name": "Cosmin Sturzu",
-    "Adress": "Iasi, Sectorul 6, Strada A, Blocul 12F",
-    "Email": "cosmins@gmail.com",
+    "Name": "Iurco Tiberiu",
+    "Adress": "Tulcea",
+    "Email": "tibi@gmail.com",
     "Hire_date": "05.05.2021",
-    "Salary": 5000,
+    "Salary": 100,
     "Job_title": "Full Stack Developer",
-    "Project_id": "6205124b9800e7de21904a27"
+    "Project_id": "62065d0001d6745d68c517b5"
 }
 ### Post Project
 POST http://localhost:3000/projects
 Content-Type: application/json
 
 {
-    "Project_name": "AquaSoft Projects Management System",
-    "Start_date": "11.02.2022",
-    "Planned_end_date": "05.05.2022",
-    "Description": "Creating a system for a better gestion of the active projects.",
-    "Project_code": "AFEW423K"
+    "Project_name": "AquaSoft Packages",
+    "Start_date": "01.01.2023",
+    "Planned_end_date": "04.04.2024",
+    "Description": "Descriere.",
+    "Project_code": "ASFWQFNN34"
 }
 
 ### Delete employee
-DELETE http://localhost:3000/employees/62050a4e344869e1d51b0a61
+DELETE http://localhost:3000/employees/62065d2d01d6745d68c517b8
 ### Delete project
-DELETE http://localhost:3000/projects/6205124b9800e7de21904a27
+DELETE http://localhost:3000/projects/62065d0001d6745d68c517b5
 
 
 ### Update employee
-PATCH http://localhost:3000/employees/62050abf9800e7de21904a12
+PATCH http://localhost:3000/employees/6206531e13a8d3a4b9e83782
 Content-Type: application/json
 
 {
-    "Project_id": "6205109c9800e7de21904a19"
+    "Email": "nouaadresa@email.com"
 }
 ### Update project
-PATCH http://localhost:3000/projects/6205124b9800e7de21904a27
+PATCH http://localhost:3000/projects/620652a413a8d3a4b9e83776
 Content-Type: application/json
 
 {
-    "Start_date": "2035-01-01T22:00:00.000Z"
+    "Project_name": "AquaSoft Decelerate"
 }
-
