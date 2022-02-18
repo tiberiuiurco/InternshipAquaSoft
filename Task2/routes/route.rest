@@ -54,3 +54,13 @@ Content-Type: application/json
 [
     "Project_name": "AquaSoft Projects Management Systemss"
 ]
+###
+
+POST http://localhost:5000/api/auth/signup
+Content-Type: application/json
+
+{
+    "email": "teeb@tibi.coms",
+    "age": 18,
+    "password": "parola"
+}

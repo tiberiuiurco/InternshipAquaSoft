@@ -51,11 +51,11 @@ export const AddProjectModal = () => {
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Start Date</Form.Label>
-            <Form.Control type="text" placeholder="Start Date (DD.MM.YYYY)" onInput={e => {input.Start_date = e.target.value;}}/>
+            <Form.Control type="text" placeholder="Start Date (MM.DD.YYYY)" onInput={e => {input.Start_date = e.target.value;}}/>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>End Date</Form.Label>
-            <Form.Control type="text" placeholder="End Date (DD.MM.YYYY)" onInput={e => {input.Planned_end_date = e.target.value;}}/>
+            <Form.Control type="text" placeholder="End Date (MM.DD.YYYY)" onInput={e => {input.Planned_end_date = e.target.value;}}/>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Project Code</Form.Label>

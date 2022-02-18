@@ -11,6 +11,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+import axios from 'axios'
 
 import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
@@ -25,12 +26,11 @@ export function AddEmployeeProjectView() {
     const [initialState, setInitialState] = useState([])
   
     useEffect(()=>{
-        fetch('/projects/').then(res => {
-            if(res.ok){
-                return res.json()
-            }
-        }).then(jsonResponse => setInitialState(jsonResponse))
-    }, [])
+      axios.get('http://localhost:3000/projects', {headers: {'x-access-token': localStorage.getItem('token')}}).then(res => {
+        setInitialState(res.data);
+        console.log(res);
+      }).catch((error) => {console.log("FALSE");localStorage.setItem('tokenAvailable', false)})
+    }, []);
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {

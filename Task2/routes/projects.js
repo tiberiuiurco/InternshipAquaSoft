@@ -2,9 +2,10 @@ const express = require('express')
 const router = express.Router()
 const Project = require('../models/project')
 const Employee = require('../models/employee')
+const { authJwt } = require("../middlewares");
 
 // Getting all projects
-router.get('/', async(req, res) => {
+router.get('/', authJwt, async(req, res) => {
     try{
         const projects = await Project.find()
         res.json(projects)

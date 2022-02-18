@@ -53,7 +53,7 @@ export const AddEmployeeModal = () => {
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Hire Date</Form.Label>
-            <Form.Control type="text" placeholder="Hire Date" onInput={e => {input.Hire_date = e.target.value;}}/>
+            <Form.Control type="text" placeholder="Hire Date (MM.DD.YYYY)" onInput={e => {input.Hire_date = e.target.value;}}/>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Salary</Form.Label>

@@ -16,6 +16,8 @@ import Stack from '@mui/material/Stack';
 import { UpdateProjectModal } from './updateProjectModal'
 import { AddProjectModal } from './addProjectModal'
 
+//import { checkToken } from '../verifyToken'
+
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav, Container } from 'react-bootstrap'
@@ -23,7 +25,10 @@ import { Navbar, Nav, Container } from 'react-bootstrap'
 
 import {useEffect, useState} from 'react'
 
+import axios from 'axios'
+
 export const Projects = () => {
+  
     let i = 0;
     const [initialState, setInitialState] = useState([])
     // Modal
@@ -55,12 +60,11 @@ export const Projects = () => {
     }
 
     useEffect(()=>{
-        fetch('/projects/').then(res => {
-            if(res.ok){
-                return res.json()
-            }
-        }).then(jsonResponse => setInitialState(jsonResponse))
-    }, [])
+      axios.get('http://localhost:3000/projects', {headers: {'x-access-token': localStorage.getItem('token')}}).then(res => {
+        setInitialState(res.data);
+        console.log(res);
+      }).catch((error) => {console.log("FALSE");localStorage.setItem('tokenAvailable', false)})
+    }, []);
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {

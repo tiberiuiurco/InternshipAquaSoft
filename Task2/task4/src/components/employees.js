@@ -24,7 +24,11 @@ import { Navbar, Nav, Container } from 'react-bootstrap'
 
 import {useEffect, useState} from 'react'
 
+import axios from 'axios'
+import { Redirect } from "react-router-dom";
+
 export const Employees = () => {
+
     let i = 0;
     const [initialState, setInitialState] = useState([])
     // Modal
@@ -55,13 +59,21 @@ export const Employees = () => {
     });
     }
 
-    useEffect(()=>{
+    /*useEffect(()=>{
         fetch('/employees/').then(res => {
             if(res.ok){
                 return res.json()
             }
         }).then(jsonResponse => setInitialState(jsonResponse))
-    }, [])
+    }, [])*/
+    console.log("Test Render Speed Employees");
+    useEffect(() => {
+      axios.get('http://localhost:3000/employees', {headers: {'x-access-token': localStorage.getItem('token')}}).then(res => {
+        setInitialState(res.data);
+        console.log("BEFORE");
+      }).catch((error) => {console.log("FALSE");localStorage.setItem('tokenAvailable', false)})
+    }, []);
+    console.log("AFTER");
     //theme.palette.action.hover
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -96,6 +108,7 @@ export const Employees = () => {
     //return(<div>
      //   {initialState.length > 0 && initialState.map((elem, i) => <li key={i}>{elem.Project_name}</li>)}
     //</div>)
+
     return (
         <div className="aa">
         <TableContainer component={Paper}>
@@ -118,7 +131,7 @@ export const Employees = () => {
                   <StyledTableCell component="th" scope="row">
                     {i += 1}
                   </StyledTableCell>
-                  <StyledTableCell align="left">{row.Name}</StyledTableCell>
+                  <StyledTableCell align="left" key={i}>{row.Name}</StyledTableCell>
                   <StyledTableCell align="left">{row.Hire_date.slice(0, 10)}</StyledTableCell>
                   <StyledTableCell align="left">{row.Salary}</StyledTableCell>
                   <StyledTableCell align="left">{row.Job_title}</StyledTableCell>
