@@ -16,14 +16,16 @@ import axios from 'axios'
 import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
 
+import { useStateIfMounted } from 'use-state-if-mounted'
+
 export function AddEmployeeProjectView() {
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useStateIfMounted(false);
   
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     let i = 0;
-    const [initialState, setInitialState] = useState([])
+    const [initialState, setInitialState] = useStateIfMounted([])
   
     useEffect(()=>{
       axios.get('http://localhost:3000/projects', {headers: {'x-access-token': localStorage.getItem('token')}}).then(res => {

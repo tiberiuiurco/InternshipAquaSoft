@@ -5,11 +5,17 @@ import { Modal, Form, Button as Buttonn} from 'react-bootstrap'
 import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
 
-export const UpdateEmployeeModal = ({element, entry}) => {
-  const [lgShow, setLgShow] = useState(false);
-  const [input, setInput] = useState([]);
+import { useStateIfMounted } from 'use-state-if-mounted'
+
+import Axios from "axios";
+
+export const UpdateEmployeeModal = ({element, entry, modifyEmpData}) => {
+  const [lgShow, setLgShow] = useStateIfMounted(false);
+  const [input, setInput] = useStateIfMounted([]);
+  const [ok, setOk] = useStateIfMounted(0);
 
   async function updateEmployee(id){
+    console.log("Update Button Pressed");
     let toBeUpdated = {};
     if(typeof(input.Name) != "undefined")toBeUpdated["Name"] = input.Name;
     if(typeof(input.Adress) != "undefined")toBeUpdated["Adress"] = input.Adress;
@@ -19,6 +25,7 @@ export const UpdateEmployeeModal = ({element, entry}) => {
     if(typeof(input.Job_title) != "undefined")toBeUpdated["Job_title"] = input.Job_title;
     if(typeof(input.Project_id) != "undefined")toBeUpdated["Project_id"] = input.Project_id;
 
+    /*
     try{
     const response = await fetch(`/employees/${id}`, {
       method: 'PATCH',
@@ -28,7 +35,13 @@ export const UpdateEmployeeModal = ({element, entry}) => {
   }
   catch(ex){
     setTimeout(() => {  console.error('exxxxxxxxxxxxxxxxx: ', ex); }, 20004);
-  }
+  }*/
+
+  Axios.patch(`http://localhost:3000/employees/${id}`, toBeUpdated).then((response) => {
+        setOk(1);
+        modifyEmpData(element, toBeUpdated);
+        setLgShow(false)
+      }).catch((error) => {setOk(2);console.log(error);});
   }
 
   return (
@@ -49,11 +62,11 @@ export const UpdateEmployeeModal = ({element, entry}) => {
           <Form>
           <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Employee Name</Form.Label>
-            <Form.Control type="text" placeholder="Name" defaultValue={entry.Name} onInput={e => {input.Name = e.target.value;console.log(input)}}/>
+            <Form.Control type="text" placeholder="Name" defaultValue={entry.Name} onInput={e => {input.Name = e.target.value;console.log(input);}}/>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Hire Date</Form.Label>
-            <Form.Control type="text" placeholder="Hire Date" defaultValue={entry.Hire_date} onInput={e => {input.Hire_date = e.target.value;}}/>
+            <Form.Control type="text" placeholder="Hire Date" defaultValue={entry.Hire_date.slice(0, 10)} onInput={e => {input.Hire_date = e.target.value;}}/>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Salary</Form.Label>
@@ -71,7 +84,7 @@ export const UpdateEmployeeModal = ({element, entry}) => {
           <Form.Label>Address</Form.Label>
             <Form.Control type="text" placeholder="Address" defaultValue={entry.Adress} onInput={e => {input.Adress = e.target.value;}}/>
           </Form.Group>
-          <Buttonn variant="primary" type="submit" onClick={() => {updateEmployee(entry._id)}}>
+          <Buttonn variant="primary" onClick={() => {updateEmployee(entry._id);}}>
             Submit
           </Buttonn>
         </Form>

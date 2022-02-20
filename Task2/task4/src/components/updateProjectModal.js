@@ -5,9 +5,14 @@ import { Modal, Form, Button as Buttonn} from 'react-bootstrap'
 import EditIcon from '@mui/icons-material/Edit';
 import Button from '@mui/material/Button';
 
-export const UpdateProjectModal = ({element, entry}) => {
-  const [lgShow, setLgShow] = useState(false);
-  const [input] = useState([]);
+import { useStateIfMounted } from 'use-state-if-mounted';
+
+import Axios from "axios";
+
+export const UpdateProjectModal = ({element, entry, modifyProjData}) => {
+  const [lgShow, setLgShow] = useStateIfMounted(false);
+  const [input] = useStateIfMounted([]);
+  const [ok, setOk] = useStateIfMounted(0);
 
   async function updateProject(id){
     let toBeUpdated = {};
@@ -17,16 +22,11 @@ export const UpdateProjectModal = ({element, entry}) => {
     if(typeof(input.Description) != "undefined")toBeUpdated["Description"] = input.Description;
     if(typeof(input.Project_code) != "undefined")toBeUpdated["Project_code"] = input.Project_code;
 
-    try{
-    const response = await fetch(`/projects/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(toBeUpdated)
-  });
-  }
-  catch(ex){
-    setTimeout(() => {  console.error('ex: ', ex); }, 20004);
-  }
+    Axios.patch(`http://localhost:3000/projects/${id}`, toBeUpdated).then((response) => {
+      setOk(1);
+      modifyProjData(element, toBeUpdated);
+      setLgShow(false)
+    }).catch((error) => {setOk(2);console.log(error);});
   }
 
   return (
@@ -65,7 +65,7 @@ export const UpdateProjectModal = ({element, entry}) => {
           <Form.Label>Description</Form.Label>
             <Form.Control type="text" placeholder="Description" defaultValue={entry.Description} onInput={e => {input.Description = e.target.value;console.log(entry)}}/>
           </Form.Group>
-          <Buttonn variant="primary" type="submit" onClick={() => {console.log(entry._id);updateProject(entry._id)}}>
+          <Buttonn variant="primary" onClick={() => {console.log(entry._id);updateProject(entry._id)}}>
             Submit
           </Buttonn>
         </Form>

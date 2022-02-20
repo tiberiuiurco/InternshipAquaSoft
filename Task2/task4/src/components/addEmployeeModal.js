@@ -1,13 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Form, Button as Buttonn} from 'react-bootstrap'
 
 import Button from '@mui/material/Button';
 
-export const AddEmployeeModal = () => {
-  const [lgShow, setLgShow] = useState(false);
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+
+import { useStateIfMounted } from 'use-state-if-mounted';
+
+import Axios from 'axios';
+
+export const AddEmployeeModal = ({modifyEmpAddedData}) => {
+  const [lgShow, setLgShow] = useStateIfMounted(false);
   //const [input, setInput] = useState([]);
+  const [ok, setOk] = useStateIfMounted(0);
   var input = {};
+  let i = 1;
+
+  // Project Dropdown
+  const [project, setProject] = useStateIfMounted('');
+  const [projects, setProjects] = useStateIfMounted([]);
+
+  const handleChange = (event) => {
+    setProject(event.target.value);
+  };
 
   async function addEmployee(){
     let toBeUpdated = {};
@@ -17,19 +38,27 @@ export const AddEmployeeModal = () => {
     if(typeof(input.Hire_date) != "undefined")toBeUpdated["Hire_date"] = input.Hire_date;else return;
     if(typeof(input.Salary) != "undefined")toBeUpdated["Salary"] = input.Salary;else return;
     if(typeof(input.Job_title) != "undefined")toBeUpdated["Job_title"] = input.Job_title;else return;
-    if(typeof(input.Project_id) != "undefined")toBeUpdated["Project_id"] = input.Project_id;else return;
+    if(typeof(project) != "undefined")toBeUpdated["Project_id"] = project;else return;
 
-    try{
-    const response = await fetch(`/employees`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(toBeUpdated)
-  });
+
+  Axios.post(`http://localhost:3000/employees/`, toBeUpdated).then((response) => {
+        setOk(1);
+        modifyEmpAddedData(toBeUpdated);
+        setLgShow(false)
+      }).catch((error) => {setOk(2);console.log(error);});
   }
-  catch(ex){
-    setTimeout(() => {  console.error('ex: ', ex); }, 20004);
-  }
-  }
+
+  useEffect(()=>{
+    Axios.get('http://localhost:3000/projects', {headers: {'x-access-token': localStorage.getItem('token')}}).then(res => {
+      let temp = [];
+      for(let i = 0; i < res.data.length; i++)
+        temp.push({"id": res.data[i]._id, "name": res.data[i].Project_name});
+
+      
+        setProjects(temp);
+      
+    }).catch((error) => {console.log("No projects found!");localStorage.setItem('tokenAvailable', false)})
+  }, []);
 
   return (
     <>
@@ -39,6 +68,7 @@ export const AddEmployeeModal = () => {
         show={lgShow}
         onHide={() => setLgShow(false)}
         aria-labelledby="example-modal-sizes-title-lg"
+        centered
       >
         <Modal.Header closeButton>
           <Modal.Title id="example-modal-sizes-title-lg">
@@ -46,39 +76,87 @@ export const AddEmployeeModal = () => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Employee Name</Form.Label>
-            <Form.Control type="text" placeholder="Name" onInput={e => {input.Name = e.target.value;}}/>
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Hire Date</Form.Label>
-            <Form.Control type="text" placeholder="Hire Date (MM.DD.YYYY)" onInput={e => {input.Hire_date = e.target.value;}}/>
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Salary</Form.Label>
-            <Form.Control type="text" placeholder="Salary" onInput={e => {input.Salary = e.target.value;}}/>
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Job Title</Form.Label>
-            <Form.Control type="text" placeholder="Job Title" onInput={e => {input.Job_title = e.target.value;}}/>
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email</Form.Label>
-            <Form.Control type="text" placeholder="Email" onInput={e => {input.Email = e.target.value;}}/>
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Address</Form.Label>
-            <Form.Control type="text" placeholder="Address" onInput={e => {input.Adress = e.target.value;}}/>
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Project ID</Form.Label>
-            <Form.Control type="text" placeholder="Project ID" onInput={e => {input.Project_id = e.target.value;}}/>
-          </Form.Group>
-          <Buttonn variant="primary" type="submit" onClick={() => {addEmployee()}}>
+
+        <Box
+      component="form"
+      sx={{
+        '& .MuiTextField-root': { m: 1, width: '25ch' },
+      }}
+      noValidate
+      autoComplete="off"
+    >
+      <div>
+        <TextField
+          required
+          id="outlined-required"
+          label="Name"
+          placeholder="Name"
+          onInput={e => {input.Name = e.target.value;}}
+        />
+        <TextField
+          required
+          id="filled-required"
+          label="Hire Date"
+          placeholder="Hire Date (MM.DD.YYYY)"
+          onInput={e => {input.Hire_date = e.target.value;}}
+        />
+        <TextField
+          id="outlined-number"
+          label="Salary"
+          type="number"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          inputProps={{step: "50"}}
+          onInput={e => {input.Salary = e.target.value;}}
+        />
+        <TextField
+          required
+          id="outlined-required"
+          label="Job Title"
+          placeholder="Job Title"
+          onInput={e => {input.Job_title = e.target.value;}}
+        />
+        <TextField
+          required
+          id="outlined-required"
+          label="Email"
+          placeholder="Email"
+          onInput={e => {input.Email = e.target.value;}}
+        />
+        <TextField
+          required
+          id="outlined-required"
+          label="Address"
+          placeholder="Address"
+          onInput={e => {input.Adress = e.target.value;}}
+        />
+</div>
+    </Box>
+
+          <div>
+          <Box sx={{ minWidth: 120 }}>
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Project</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={project}
+            label="Project"
+            onChange={handleChange}
+          >
+            {projects.map((data) => (
+              <MenuItem value={data.id}>{data.name}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+      </div>
+          <div class='d-flex justify-content-center'>
+          <Buttonn size='lg' variant="primary mt-3 ml-5" onClick={() => {addEmployee()}}>
             Submit
           </Buttonn>
-        </Form>
+          </div>
         </Modal.Body>
       </Modal>
     </>

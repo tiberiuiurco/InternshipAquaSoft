@@ -22,17 +22,18 @@ import { AddProjectModal } from './addProjectModal'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav, Container } from 'react-bootstrap'
 
+import { useStateIfMounted } from 'use-state-if-mounted'
 
-import {useEffect, useState} from 'react'
+import {useEffect} from 'react'
 
 import axios from 'axios'
 
 export const Projects = () => {
   
     let i = 0;
-    const [initialState, setInitialState] = useState([])
+    const [initialState, setInitialState] = useStateIfMounted([])
     // Modal
-    const [lgShow, setLgShow] = useState(false);
+    const [lgShow, setLgShow] = useStateIfMounted(false);
 
     // Delete
     function delElement(id){
@@ -59,11 +60,26 @@ export const Projects = () => {
     });
     }
 
+    function modifyProjData(id, data){
+      for(let j = 0; j < initialState.length; j++){
+        if(j === id-1){
+            Object.entries(data).forEach(([key, value]) => {initialState[j][key] = value; console.log("Key: "+key+" | Value: "+value);})
+        }
+      }
+      setInitialState(JSON.parse(JSON.stringify(initialState)));
+    }
+
+    function modifyProjAddedData(data){
+      console.log("DATA: "+JSON.stringify(initialState));
+      initialState.push(data);
+      setInitialState(JSON.parse(JSON.stringify(initialState)));
+    }
+
     useEffect(()=>{
       axios.get('http://localhost:3000/projects', {headers: {'x-access-token': localStorage.getItem('token')}}).then(res => {
         setInitialState(res.data);
         console.log(res);
-      }).catch((error) => {console.log("FALSE");localStorage.setItem('tokenAvailable', false)})
+      }).catch((error) => {console.log("FALSE");localStorage.clear();})
     }, []);
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -125,13 +141,13 @@ export const Projects = () => {
                   <StyledTableCell align="left">{row.Planned_end_date.slice(0, 10)}</StyledTableCell>
                   <StyledTableCell align="left">{row.Project_code}</StyledTableCell>
                   <StyledTableCell align="left">{row.Description}</StyledTableCell>
-                  <StyledTableCell align="right"><UpdateProjectModal element={i} entry={initialState[i-1]}/><Button variant="contained" key={i} endIcon={<DeleteIcon />} onClick={() => deleteStudent(initialState[i-1]["_id"])}> Delete </Button></StyledTableCell>
+                  <StyledTableCell align="right"><UpdateProjectModal element={i} entry={initialState[i-1]} modifyProjData={modifyProjData}/><Button variant="contained" key={i} endIcon={<DeleteIcon />} onClick={() => deleteStudent(initialState[i-1]["_id"])}> Delete </Button></StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-        <AddProjectModal/>
+        <AddProjectModal modifyProjAddedData={modifyProjAddedData}/>
 
 
         </div>

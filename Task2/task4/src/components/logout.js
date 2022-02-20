@@ -7,5 +7,6 @@ import { Redirect } from "react-router-dom";
 export const Logout = () => {
     localStorage.setItem("token", '');
     localStorage.setItem('tokenAvailable', false);
+    localStorage.clear();
     return (<Redirect to="/login"/>);
 }

@@ -24,15 +24,20 @@ import { Navbar, Nav, Container } from 'react-bootstrap'
 
 import {useEffect, useState} from 'react'
 
+import { useStateIfMounted } from 'use-state-if-mounted'
+
 import axios from 'axios'
 import { Redirect } from "react-router-dom";
+
+
+
 
 export const Employees = () => {
 
     let i = 0;
-    const [initialState, setInitialState] = useState([])
+    const [initialState, setInitialState] = useStateIfMounted([])
     // Modal
-    const [lgShow, setLgShow] = useState(false);
+    const [lgShow, setLgShow] = useStateIfMounted(false);
 
     // Delete
     function delElement(id){
@@ -44,6 +49,7 @@ export const Employees = () => {
         }
         return tempArray;
     }
+
     async function deleteEmployee(id) {
         const response = await fetch(`/employees/${id}`, {
           method: "DELETE",
@@ -59,21 +65,27 @@ export const Employees = () => {
     });
     }
 
-    /*useEffect(()=>{
-        fetch('/employees/').then(res => {
-            if(res.ok){
-                return res.json()
-            }
-        }).then(jsonResponse => setInitialState(jsonResponse))
-    }, [])*/
-    console.log("Test Render Speed Employees");
+    function modifyEmpData(id, data){
+      for(let j = 0; j < initialState.length; j++){
+        if(j === id-1){
+            Object.entries(data).forEach(([key, value]) => {initialState[j][key] = value; })
+        }
+      }
+      setInitialState(JSON.parse(JSON.stringify(initialState)));
+    }
+
+    function modifyEmpAddedData(data){
+      initialState.push(data);
+      setInitialState(JSON.parse(JSON.stringify(initialState)));
+    }
+
+    
     useEffect(() => {
       axios.get('http://localhost:3000/employees', {headers: {'x-access-token': localStorage.getItem('token')}}).then(res => {
         setInitialState(res.data);
-        console.log("BEFORE");
-      }).catch((error) => {console.log("FALSE");localStorage.setItem('tokenAvailable', false)})
+      }).catch((error) => {localStorage.clear();})
     }, []);
-    console.log("AFTER");
+
     //theme.palette.action.hover
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -104,7 +116,6 @@ export const Employees = () => {
         return { Project_name, Start_date, Planned_end_date, Description, Project_code };
       }
       
-    console.log(initialState);
     //return(<div>
      //   {initialState.length > 0 && initialState.map((elem, i) => <li key={i}>{elem.Project_name}</li>)}
     //</div>)
@@ -137,13 +148,13 @@ export const Employees = () => {
                   <StyledTableCell align="left">{row.Job_title}</StyledTableCell>
                   <StyledTableCell align="left">{row.Email}</StyledTableCell>
                   <StyledTableCell align="left">{row.Adress}</StyledTableCell>
-                  <StyledTableCell align="right"><UpdateEmployeeModal element={i} entry={initialState[i-1]}/><Button variant="contained" key={i} endIcon={<DeleteIcon />} onClick={() => deleteEmployee(initialState[i-1]["_id"])}> Delete </Button></StyledTableCell>
+                  <StyledTableCell align="right"><UpdateEmployeeModal element={i} entry={initialState[i-1]} modifyEmpData={modifyEmpData}/><Button variant="contained" key={i} endIcon={<DeleteIcon />} onClick={() => deleteEmployee(initialState[i-1]["_id"])}> Delete </Button></StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-        <AddEmployeeModal/>
+        <AddEmployeeModal modifyEmpAddedData={modifyEmpAddedData}/>
         <AddEmployeeProjectView/>
 
         </div>
