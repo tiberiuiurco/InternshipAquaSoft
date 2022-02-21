@@ -13,6 +13,8 @@ import {useEffect, useState} from 'react'
 
 import { useStateIfMounted } from 'use-state-if-mounted'
 
+import { Redirect } from "react-router-dom";
+
 export const Register = () => {
     let input = {};
     const [ok, setOk] = useStateIfMounted(0);
@@ -96,6 +98,7 @@ export const Register = () => {
     {ok==2?<div>{registerError(2)}</div>:(ok==3?<div>{registerError(3)}</div>:'')}
     <div class="testt"><Button variant="dark mt-2" onClick={() => {addUser()}}>Register</Button>{' '}</div>
     </Box>
+    {ok===1?<Redirect to="/login"/>:''}
     </div>
       </>)
 }

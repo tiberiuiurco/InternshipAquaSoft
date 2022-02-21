@@ -11,12 +11,14 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import { useStateIfMounted } from 'use-state-if-mounted'
 
+import { Redirect } from "react-router-dom";
+
 
 function App() {
   const [user, setUser] = useState(false);
   const userLogged = localStorage.getItem('tokenAvailable');
   setInterval(()=>
-    {
+    {console.log("USER: " + user);
       //console.log(typeof user);
       const userLogged = localStorage.getItem('tokenAvailable');
       if (userLogged==='true'){
@@ -54,7 +56,8 @@ function App() {
             <Route path="/logout">
               <Logout/>
             </Route>
-            <Route path="/">
+            <Route path="/employees">
+            
             </Route>
 
           </Switch>

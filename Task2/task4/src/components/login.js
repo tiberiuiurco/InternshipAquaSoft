@@ -21,25 +21,10 @@ export const Login = () => {
     const [loginStatus, setLoginStatus] = useStateIfMounted(0);
 
     const [success, setSuccess] = useStateIfMounted(0);
-    /*
-    async function addUser(){
-      let toBeUpdated = {};
-      if(typeof(input.email) != "undefined")toBeUpdated["email"] = input.email;else return;
-      if(typeof(input.password) != "undefined")toBeUpdated["password"] = input.password;else return;
-  
-      try{
-      const response = await fetch(`/api/auth/signin`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(toBeUpdated)
-    }).then((response) => {console.log("1");});
-    }
-    catch(ex){
-      setTimeout(() => {  console.error('ex: ', ex); }, 20004);
-    }
-    }*/
+
+    var toBeUpdated = {};
+    
     const addUser = () => {
-      let toBeUpdated = {};
       if(typeof(input.email) != "undefined")toBeUpdated["email"] = input.email;else{setSuccess(3);return;}
       if(typeof(input.password) != "undefined")toBeUpdated["password"] = input.password;else{setSuccess(3);return;}
   
@@ -109,7 +94,7 @@ export const Login = () => {
         </div>
         {success==2?<div>{loginError(2)}</div>:(success==3?<div>{loginError(3)}</div>:'')}
     <div class="testt"><Button variant="dark mt-2" onClick={() => {addUser()}}>Login</Button>{' '}</div>
-    {success===1?<Redirect to="/employees"/>:''}
+    {success===1?<Redirect to="/"/>:''}
     </Box>
     </div>
       </>)
