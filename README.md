@@ -7,3 +7,5 @@ Third task added: 10.02.2022 - 14:10
 Fourth task added: 15.02.2022 - 13:20
 
 Fifth task added: 19.02.2022 - 01:08
+
+Sixth task finished: 23.02.2022 - 16:36
