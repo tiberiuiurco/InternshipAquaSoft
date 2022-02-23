@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 const baseUrl = 'http://localhost:5000/projects';
 
 @Injectable({
@@ -23,5 +24,8 @@ export class ProjectsService {
   }
   add(data): Observable<any> {
     return this.http.post(baseUrl, data);
+  }
+  test(): void{
+    console.log("TEAPA");
   }
 }

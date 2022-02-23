@@ -18,6 +18,7 @@ export class ProjectsListComponent implements OnInit {
   // Edit Modal
   inputEditValue = {};
   projects : any;
+  deleteOk = true;
 
   constructor(private projectsService: ProjectsService, private modalService: NgbModal) { }
   ngOnInit(): void {
@@ -56,20 +57,31 @@ export class ProjectsListComponent implements OnInit {
         });
   }
   removeCurrentProject(id): void{
-    this.deleteProject(id);
-    this.projects = this.projects.filter((element) => {
-      return element._id != id;
-    });
+    if(this.deleteProject(id)){
+      this.projects = this.projects.filter((element) => {
+        return element._id != id;
+      });
+    }
   }
-  deleteProject(id): void {
+  deleteProject(id): any {
     this.projectsService.delete(id)
       .subscribe(
         response => {
-          console.log(response);
+          this.deleteOk = true;
+          console.log(response.status);
+          return true;
         },
         error => {
+          this.deleteOk = false;
           console.log(error);
+          return false;
         });
+  }
+  checkDeleteOk(): any{
+    return (this.deleteOk === true);
+  }
+  closeAlert(): void{
+    this.deleteOk = true;
   }
   updateProject(): any{
     this.projectsService.update(this.currentProject._id, this.inputEditValue)

@@ -1,3 +1,7 @@
+<div class="alert alert-warning alert-dismissible fade show" role="alert" *ngIf="!checkDeleteOk()" ng-show="show_alert">
+  There are still <strong>employees</strong> left working at this project!
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="closeAlert()"></button>
+</div>
 <table class="table table-striped">
     <thead>
     <tr>
@@ -46,11 +50,11 @@
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">Start Date</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Start Date" value={{currentProject.Start_date}} (keyup)='inputEditModal("Start_date", $event)'>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Start Date (MM.DD.YYYY)" value={{currentProject.Start_date}} (keyup)='inputEditModal("Start_date", $event)'>
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">End Date</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter End Date" value={{currentProject.Planned_end_date}} (keyup)='inputEditModal("Planned_end_date", $event)'>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter End Date (MM.DD.YYYY)" value={{currentProject.Planned_end_date}} (keyup)='inputEditModal("Planned_end_date", $event)'>
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">Description</label>
@@ -81,11 +85,11 @@
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">Start Date</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Start Date" (keyup)='inputEditModal("Start_date", $event)'>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Start Date (MM.DD.YYYY)" (keyup)='inputEditModal("Start_date", $event)'>
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">End date</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter End Date" (keyup)='inputEditModal("Planned_end_date", $event)'>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter End Date (MM.DD.YYYY)" (keyup)='inputEditModal("Planned_end_date", $event)'>
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">Description</label>

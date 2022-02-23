@@ -78,8 +78,10 @@ router.delete('/:id', getProject, async (req, res) => {
         await res.project.remove()
         res.json({ message: 'Project Deleted' })
       }
-      else
+      else{
         console.log("We could not delete the provided project!");
+        res.status(400).json({message: 'We could not delete the provided project!'});
+      }
     } catch (err) {
       res.status(500).json({ message: err.message })
     }

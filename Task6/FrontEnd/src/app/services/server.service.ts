@@ -18,10 +18,11 @@ export class ServerService {
 
   constructor(private http: HttpClient) { }
   login(data){
-    return this.http.post<{token: string}>(signinUrl, data)
+    return this.http.post<{token: string, name: string}>(signinUrl, data)
     .pipe(
       map(result => {
         localStorage.setItem('access_token', result.token);
+        localStorage.setItem('name', result.name);
         return true;
       })
     );

@@ -15,4 +15,8 @@ export class AppComponent {
     this.serverService.logout();
     this.router.navigate(['login']);
   }
+
+  getName(){
+    return localStorage.getItem('name');
+  }
 }
