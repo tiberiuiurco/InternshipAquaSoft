@@ -20,6 +20,8 @@ export class ProjectsListComponent implements OnInit {
   projects : any;
   deleteOk = true;
 
+  buffer: any;
+
   constructor(private projectsService: ProjectsService, private modalService: NgbModal) { }
   ngOnInit(): void {
     this.retrieveProjects();
@@ -57,18 +59,23 @@ export class ProjectsListComponent implements OnInit {
         });
   }
   removeCurrentProject(id): void{
+    console.log("ID: "+id);
     if(this.deleteProject(id)){
+      console.log("In delete");
       this.projects = this.projects.filter((element) => {
         return element._id != id;
       });
     }
   }
   deleteProject(id): any {
+    console.log("ID2: "+id);
     this.projectsService.delete(id)
       .subscribe(
         response => {
+          this.projects = this.projects.filter((element) => {
+            return element._id != id;
+          });
           this.deleteOk = true;
-          console.log(response.status);
           return true;
         },
         error => {
@@ -78,6 +85,8 @@ export class ProjectsListComponent implements OnInit {
         });
   }
   checkDeleteOk(): any{
+    //let state = (this.deleteOk === true);
+    //if(this.deleteOk === true)
     return (this.deleteOk === true);
   }
   closeAlert(): void{
@@ -172,8 +181,7 @@ export class ProjectsListComponent implements OnInit {
       .subscribe(
         data => {
           console.log(data);
-          this.inputEditValue = {};
-          this.modalService.dismissAll();
+          this.buffer = JSON.parse(JSON.stringify(data));
         },
         error => {
           console.log(error);
@@ -198,7 +206,11 @@ export class ProjectsListComponent implements OnInit {
     else{
       console.log("Tried to be added");
       this.addProject(this.inputEditValue);
-      this.projects.push(this.inputEditValue);
+      setTimeout(()=>{
+        this.projects.push(this.buffer);
+        this.inputEditValue = {};
+      }, 200);
+      this.modalService.dismissAll();
       console.log(this.projects);
     }
 

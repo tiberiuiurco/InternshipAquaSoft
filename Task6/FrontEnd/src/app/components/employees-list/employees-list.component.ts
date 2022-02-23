@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EmployeesService } from 'src/app/services/employees.service';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { response } from 'express';
 
 @Component({
   selector: 'app-employees-list',
@@ -19,6 +20,7 @@ export class EmployeesListComponent implements OnInit {
   // Edit Modal
   inputEditValue = {};
   projects : any;
+  buffer: any;
 
   constructor(private employeesService: EmployeesService, private modalService: NgbModal) { }
   ngOnInit(): void {
@@ -26,14 +28,25 @@ export class EmployeesListComponent implements OnInit {
     this.getProjects();
   }
   retrieveEmployees(): void {
+    console.log("RETRIEVE");
     this.employeesService.getAll()
       .subscribe(
         data => {
           this.employees = data;
-          console.log(data);
         },
         error => {
           console.log(error);
+        });
+  }
+  getEmployees(): void {
+    this.employeesService.getAll()
+      .subscribe(
+        data => {
+          return JSON.parse(JSON.stringify(data));
+        },
+        error => {
+          console.log(error);
+          return null;
         });
   }
   getProjects(): any{
@@ -166,14 +179,13 @@ export class EmployeesListComponent implements OnInit {
   }
 
   // ADD MODAL
-  addEmployee(data): any{
+  addEmployee(data): void{
     console.log("Add Employee Function");
     this.employeesService.add(data)
       .subscribe(
         data => {
           console.log(data);
-          this.inputEditValue = {};
-          this.modalService.dismissAll();
+          this.buffer = JSON.parse(JSON.stringify(data));
         },
         error => {
           console.log(error);
@@ -199,8 +211,13 @@ export class EmployeesListComponent implements OnInit {
     else{
       console.log("Tried to be added");
       this.addEmployee(this.inputEditValue);
-      this.employees.push(this.inputEditValue);
-      console.log(this.employees);
+      setTimeout(()=>{
+        this.employees.push(this.buffer);
+        this.inputEditValue = {};
+        console.log(this.employees);
+      }, 200);
+      this.modalService.dismissAll();
+      
     }
 
   }

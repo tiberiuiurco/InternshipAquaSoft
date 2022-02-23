@@ -26,6 +26,5 @@ export class ProjectsService {
     return this.http.post(baseUrl, data);
   }
   test(): void{
-    console.log("TEAPA");
   }
 }
