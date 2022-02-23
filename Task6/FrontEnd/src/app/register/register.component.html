@@ -23,7 +23,7 @@
       <form>
         <input type="text" id="login" class="fadeIn first" name="login" placeholder="Name" (keyup)='inputRegisterField("name", $event)'>
         <input type="text" id="login" class="fadeIn second" name="login" placeholder="Email" (keyup)='inputRegisterField("email", $event)'>
-        <input type="text" id="password" class="fadeIn third" name="login" placeholder="Password" (keyup)='inputRegisterField("password", $event)'>
+        <input type="password" id="password" class="fadeIn third" name="login" placeholder="Password" (keyup)='inputRegisterField("password", $event)'>
         <input type="text" id="login" class="fadeIn fourth" name="login" placeholder="Age" (keyup)='inputRegisterField("age", $event)'>
         <input type="submit" class="fadeIn fourth" value="Register" (click)="register()">
         <div class="alert alert-warning align-items-center" role="alert" *ngIf="isWrong()">

@@ -22,7 +22,7 @@
       <!-- Login Form -->
       <form>
         <input type="text" id="login" class="fadeIn second" name="login" placeholder="Email" (keyup)='inputLoginField("email", $event)'>
-        <input type="text" id="password" class="fadeIn third" name="login" placeholder="Password" (keyup)='inputLoginField("password", $event)'>
+        <input type="password" id="password" class="fadeIn third" name="login" placeholder="Password" (keyup)='inputLoginField("password", $event)'>
         <input type="submit" class="fadeIn fourth" value="Log In" (click)="login()">
         <div class="alert alert-warning align-items-center" role="alert" *ngIf="isWrong()">
           <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
