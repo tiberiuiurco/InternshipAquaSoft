@@ -24,8 +24,12 @@ export class EmployeesListComponent implements OnInit {
 
   constructor(private employeesService: EmployeesService, private modalService: NgbModal) { }
   ngOnInit(): void {
-    this.retrieveEmployees();
+    setTimeout(()=>{this.retrieveEmployees();}, 200)
+    //this.retrieveEmployees();
     this.getProjects();
+  }
+  isToken(){
+    return (localStorage.getItem('access_token'));
   }
   retrieveEmployees(): void {
     console.log("RETRIEVE");
@@ -35,7 +39,7 @@ export class EmployeesListComponent implements OnInit {
           this.employees = data;
         },
         error => {
-          console.log(error);
+          console.log(error.status);
         });
   }
   getEmployees(): void {
@@ -84,17 +88,18 @@ export class EmployeesListComponent implements OnInit {
   }
   removeCurrentEmployee(id): void{
     this.deleteEmployee(id);
-    this.employees = this.employees.filter((element) => {
-      return element._id != id;
-    });
   }
   deleteEmployee(id): void {
     this.employeesService.delete(id)
       .subscribe(
         response => {
           console.log(response);
+          this.employees = this.employees.filter((element) => {
+            return element._id != id;
+          });
         },
         error => {
+          console.log("EROARE");
           console.log(error);
         });
   }
@@ -102,10 +107,22 @@ export class EmployeesListComponent implements OnInit {
     this.employeesService.update(this.currentEmployee._id, this.inputEditValue)
       .subscribe(
         response => {
+          if(response.message !== 'Unauthorized'){
+          let index = 0;
+          for(let i = 0; i < this.employees.length; i++){
+            if(this.employees[i]._id == this.currentEmployee._id){
+              index = i;
+              break;
+            }
+          }
+          for(var [key, value] of Object.entries(this.inputEditValue)){
+            this.employees[index][key] = value;
+      }
+
           console.log(response);
           this.inputEditValue = {};
           return true;
-        },
+        }},
         error => {
           console.log('The Update couldnt be made!')
           console.log(error);
@@ -158,7 +175,7 @@ export class EmployeesListComponent implements OnInit {
 
   submitEditEmployee(): void{
     if(this.updateEmployee()){
-      let index = 0;
+      /*let index = 0;
       for(let i = 0; i < this.employees.length; i++){
         if(this.employees[i]._id == this.currentEmployee._id){
           index = i;
@@ -167,7 +184,7 @@ export class EmployeesListComponent implements OnInit {
       }
       for(var [key, value] of Object.entries(this.inputEditValue)){
         this.employees[index][key] = value;
-      }
+      }*/
       this.currentEmployee = {};
       this.inputEditValue = {};
       this.modalService.dismissAll();
@@ -186,6 +203,9 @@ export class EmployeesListComponent implements OnInit {
         data => {
           console.log(data);
           this.buffer = JSON.parse(JSON.stringify(data));
+          this.employees.push(this.buffer);
+          this.inputEditValue = {};
+          console.log(this.employees);
         },
         error => {
           console.log(error);
@@ -211,11 +231,6 @@ export class EmployeesListComponent implements OnInit {
     else{
       console.log("Tried to be added");
       this.addEmployee(this.inputEditValue);
-      setTimeout(()=>{
-        this.employees.push(this.buffer);
-        this.inputEditValue = {};
-        console.log(this.employees);
-      }, 200);
       this.modalService.dismissAll();
       
     }

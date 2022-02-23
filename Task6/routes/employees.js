@@ -5,11 +5,13 @@ const { authJwt } = require("../middlewares");
 
 // Getting all employees
 //router.get('/', authJwt, async(req, res) => {
-    router.get('/', async(req, res) => {
+    router.get('/', authJwt, async(req, res) => {
     try{
         const employees = await Employee.find()
         res.json(employees)
+        console.log("Succes!");
     }catch(error){
+        console.log("Fail!");
         res.status(500).json({message: error.message})
     }
 })
@@ -20,7 +22,7 @@ router.get('/:id', getEmployee, (req, res) => {
 })
 
 // Getting an employee with his project
-router.get('/join/:id', getEmployee, (req, res) => {
+router.get('/join/:id', authJwt, getEmployee, (req, res) => {
     /*res.employee.populate('Project_id').exec((err, user) => {
         if(err) return handleError(err);
         res.json(res.employee.Project_id.body)
@@ -34,7 +36,7 @@ router.get('/join/:id', getEmployee, (req, res) => {
 })
 
 // Adding an employee
-router.post('/', async(req, res) => {
+router.post('/', authJwt, async(req, res) => {
     const employee = new Employee({
         Name: req.body.Name,
         Adress: req.body.Adress,
@@ -54,7 +56,7 @@ router.post('/', async(req, res) => {
 })
 
 // Updating an employee
-router.patch('/:id', getEmployee, async (req, res) => {
+router.patch('/:id', authJwt, getEmployee, async (req, res) => {
     if(req.body.Name != null){
         res.employee.Name = req.body.Name
     }
@@ -85,7 +87,7 @@ router.patch('/:id', getEmployee, async (req, res) => {
 })
 
 // Deleting an employee
-router.delete('/:id', getEmployee, async (req, res) => {
+router.delete('/:id', authJwt, getEmployee, async (req, res) => {
     try {
       await res.employee.remove()
       res.json({ message: 'Employee Deleted' })

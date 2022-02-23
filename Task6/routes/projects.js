@@ -5,7 +5,7 @@ const Employee = require('../models/employee')
 const { authJwt } = require("../middlewares");
 
 // Getting all projects authJwt
-router.get('/', async(req, res) => {
+router.get('/', authJwt, async(req, res) => {
     try{
         const projects = await Project.find()
         res.json(projects)
@@ -20,7 +20,7 @@ router.get('/:id', getProject, (req, res) => {
 })
 
 // Adding a project
-router.post('/', async(req, res) => {
+router.post('/', authJwt, async(req, res) => {
     const project = new Project({
         Project_name: req.body.Project_name,
         Start_date: req.body.Start_date,
@@ -38,7 +38,7 @@ router.post('/', async(req, res) => {
 })
 
 // Updating an employee
-router.patch('/:id', getProject, async (req, res) => {
+router.patch('/:id', authJwt, getProject, async (req, res) => {
     if(req.body.Project_name != null){
         res.project.Project_name = req.body.Project_name
     }
@@ -63,7 +63,7 @@ router.patch('/:id', getProject, async (req, res) => {
 })
 
 // Deleting a project
-router.delete('/:id', getProject, async (req, res) => {
+router.delete('/:id', authJwt, getProject, async (req, res) => {
     var ok = 1;
     try {
       const employees = await Employee.find()
