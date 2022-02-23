@@ -1,0 +1,103 @@
+<table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Start Date</th>
+      <th scope="col">End Date</th>
+      <th scope="col">Description</th>
+      <th scope="col">Project Code</th>
+      <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let project of projects; let rowId = index">
+      <th scope="row">{{ rowId + 1 }}</th>
+      <td>{{ project.Project_name }}</td>
+      <td>{{ project.Start_date.slice(0, 10)}}</td>
+      <td>{{ project.Planned_end_date.slice(0, 10)}}</td>
+      <td>{{ project.Description}}</td>
+      <td>{{ project.Project_code }}</td>
+      <td><div class="btn-group" role="group" aria-label="Basic example"><button mat-raised-button (click)="openEdit(content, project)">Edit</button>
+        <button mat-raised-button color="warn" (click)="removeCurrentProject(project._id)">Delete</button></div>
+    </td>
+    </tr>
+    </tbody>
+  </table>
+  <div class="container">
+    <div class="row">
+      <div class="col text-center">
+        <button type="button" class="btn btn-info btn-lg btn-add-project" (click)="openAdd(contentAdd)">Add a new Project</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- EDIT -->
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h1 class="modal-title" id="modal-basic-title">Edit Project - {{currentProject.Project_name}}</h1>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body modal-lg">
+      <form>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Project Name</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Project Name" value={{currentProject.Project_name}} (keyup)='inputEditModal("Project_name", $event)'>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Start Date</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Start Date" value={{currentProject.Start_date}} (keyup)='inputEditModal("Start_date", $event)'>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">End Date</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter End Date" value={{currentProject.Planned_end_date}} (keyup)='inputEditModal("Planned_end_date", $event)'>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Description</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Description" value={{currentProject.Description}} (keyup)='inputEditModal("Description", $event)'>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Project Code</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Project Code" value={{currentProject.Project_code}} (keyup)='inputEditModal("Project_code", $event)'>
+        </div>
+        </form>
+        </div>
+        <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="submitEditProject()">Save</button>
+    </div>
+  </ng-template>
+  
+  <!-- Add -->
+  <ng-template #contentAdd let-modal>
+    <div class="modal-header">
+      <h1 class="modal-title" id="modal-basic-title">Add an Project</h1>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body modal-lg">
+      <form>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Project Name</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Project Name" (keyup)='inputEditModal("Project_name", $event)'>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Start Date</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Start Date" (keyup)='inputEditModal("Start_date", $event)'>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">End date</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter End Date" (keyup)='inputEditModal("Planned_end_date", $event)'>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Description</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Description" (keyup)='inputEditModal("Description", $event)'>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Project Code</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Project Code" (keyup)='inputEditModal("Project_code", $event)'>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="submitAddProject()">Add</button>
+    </div>
+  </ng-template>

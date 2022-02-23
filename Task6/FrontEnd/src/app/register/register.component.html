@@ -1,0 +1,25 @@
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+      <!-- Tabs Titles -->
+  
+      <!-- Icon -->
+      <div class="fadeIn first">
+        <h1>Register</h1>
+      </div>
+  
+      <!-- Login Form -->
+      <form>
+        <input type="text" id="login" class="fadeIn first" name="login" placeholder="Name" (keyup)='inputRegisterField("name", $event)'>
+        <input type="text" id="login" class="fadeIn second" name="login" placeholder="Email" (keyup)='inputRegisterField("email", $event)'>
+        <input type="text" id="password" class="fadeIn third" name="login" placeholder="Password" (keyup)='inputRegisterField("password", $event)'>
+        <input type="text" id="login" class="fadeIn fourth" name="login" placeholder="Age" (keyup)='inputRegisterField("age", $event)'>
+        <input type="submit" class="fadeIn fourth" value="Register" (click)="register()">
+      </form>
+  
+      <!-- Remind Passowrd -->
+      <div id="formFooter">
+        <a class="underlineHover" routerLink="/login" href="#">You already have an account?</a>
+      </div>
+  
+    </div>
+  </div>

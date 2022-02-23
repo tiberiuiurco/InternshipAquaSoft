@@ -1,0 +1,66 @@
+GET http://localhost:5000/employees
+###
+GET http://localhost:5000/projects
+
+### Get one employee
+GET http://localhost:3000/employees/6206531e13a8d3a4b9e83782
+### With JOIN
+GET http://localhost:3000/employees/join/62065d2d01d6745d68c517b8
+### Get one project
+GET http://localhost:3000/projects/6206529513a8d3a4b9e83774
+
+### Post Employee
+POST http://localhost:3000/employees
+Content-Type: application/json
+
+{
+    "Name": "Iurco Tiberiu",
+    "Adress": "Tulcea",
+    "Email": "tibi@gmail.com",
+    "Hire_date": "05.05.2021",
+    "Salary": 100,
+    "Job_title": "Full Stack Developer",
+    "Project_id": "62065d0001d6745d68c517b5"
+}
+### Post Project
+POST http://localhost:3000/projects
+Content-Type: application/json
+
+{
+    "Project_name": "AquaSoft Packagess",
+    "Start_date": "01.01.2023",
+    "Planned_end_date": "04.04.2024",
+    "Description": "Descriere.",
+    "Project_code": "ASFWQFNN345"
+}
+
+### Delete employee
+DELETE http://localhost:3000/employees/62065d2d01d6745d68c517b8
+### Delete project
+DELETE http://localhost:3000/projects/62065d0001d6745d68c517b5
+
+
+### Update employee
+PATCH http://localhost:3000/employees/6206531e13a8d3a4b9e83782
+Content-Type: application/json
+
+{
+    "Email": "nouaadresa@email.com"
+}
+### Update project
+PATCH http://localhost:3000/projects/6206526913a8d3a4b9e8376e
+Content-Type: application/json
+
+[
+    "Project_name": "AquaSoft Projects Management Systemss"
+]
+###
+
+POST http://localhost:5000/api/auth/signup
+Content-Type: application/json
+
+{
+    "email": "teeb@tibi.coms",
+    "age": 18,
+    "password": "parola"
+}

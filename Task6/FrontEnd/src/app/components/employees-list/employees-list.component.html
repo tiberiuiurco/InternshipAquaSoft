@@ -1,0 +1,133 @@
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">ID</th>
+    <th scope="col">Name</th>
+    <th scope="col">Address</th>
+    <th scope="col">Email</th>
+    <th scope="col">Hire Date</th>
+    <th scope="col">Salary</th>
+    <th scope="col">Job Title</th>
+    <th scope="col"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let employee of employees; let rowId = index">
+    <th scope="row">{{ rowId + 1 }}</th>
+    <td>{{ employee.Name }}</td>
+    <td>{{ employee.Adress}}</td>
+    <td>{{ employee.Email}}</td>
+    <td>{{ employee.Hire_date.slice(0, 10)}}</td>
+    <td>{{ employee.Salary | number }}</td>
+    <td>{{ employee.Job_title}}</td>
+    <td><div class="btn-group" role="group" aria-label="Basic example"><button mat-raised-button (click)="openEdit(content, employee)">Edit</button>
+      <button mat-raised-button color="warn" (click)="removeCurrentEmployee(employee._id)">Delete</button></div>
+  </td>
+  </tr>
+  </tbody>
+</table>
+<div class="container">
+  <div class="row">
+    <div class="col text-center">
+      <button type="button" class="btn btn-info btn-lg btn-add-employee" (click)="openAdd(contentAdd)">Add a new Employee</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h1 class="modal-title" id="modal-basic-title">Edit Employee - {{currentEmployee.Name}}</h1>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body modal-lg">
+    <form>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Name</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Name" value={{currentEmployee.Name}} (keyup)='inputEditModal("Name", $event)'>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Address</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Address" value={{currentEmployee.Adress}} (keyup)='inputEditModal("Adress", $event)'>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Email</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Email" value={{currentEmployee.Email}} (keyup)='inputEditModal("Email", $event)'>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Hire Date</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Hire Date" value={{currentEmployee.Hire_date}} (keyup)='inputEditModal("Hire_date", $event)'>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Salary</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Salary" value={{currentEmployee.Salary}} (keyup)='inputEditModal("Salary", $event)'>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1">	Job Title</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Job Title" value={{currentEmployee.Job_title}} (keyup)='inputEditModal("Job_title", $event)'>
+      </div>
+      <div class="form-group mt-3">
+        <mat-form-field appearance="fill">
+          <mat-label>Project</mat-label>
+          <mat-select class="testC" (selectionChange)="inputEditModal('select', $event)">
+            <mat-option *ngFor="let project of projects" [value]="project._id">
+              {{project.Project_name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="submitEditEmployee()">Save</button>
+  </div>
+</ng-template>
+
+<!-- Add -->
+<ng-template #contentAdd let-modal>
+  <div class="modal-header">
+    <h1 class="modal-title" id="modal-basic-title">Add an Employee</h1>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body modal-lg">
+    <form>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Name</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Name" (keyup)='inputEditModal("Name", $event)'>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Address</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Address" (keyup)='inputEditModal("Adress", $event)'>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Email</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Email" (keyup)='inputEditModal("Email", $event)'>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Hire Date</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Hire Date" (keyup)='inputEditModal("Hire_date", $event)'>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Salary</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Salary" (keyup)='inputEditModal("Salary", $event)'>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputEmail1">Job Title</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Job Title" (keyup)='inputEditModal("Job_title", $event)'>
+      </div>
+      <div class="form-group mt-3">
+        <mat-form-field appearance="fill">
+          <mat-label>Project</mat-label>
+          <mat-select class="testC" (selectionChange)="inputEditModal('select', $event)">
+            <mat-option *ngFor="let project of projects" [value]="project._id">
+              {{project.Project_name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="submitAddEmployee()">Add</button>
+  </div>
+</ng-template>

@@ -1,0 +1,25 @@
+<div>
+  <nav class="navbar navbar-expand navbar-dark bg-dark">
+    <a href="#" class="navbar-brand">Aquasoft</a>
+    <div class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a routerLink="employees" class="nav-link" *ngIf="serverService.loggedIn">Employees</a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="projects" class="nav-link" *ngIf="serverService.loggedIn">Projects</a>
+      </li>
+      <li class="nav-item ml-10">
+        <a routerLink="login" class="nav-link" *ngIf="!serverService.loggedIn">Login</a>
+      </li>
+      <li class="nav-item ml-10">
+        <a routerLink="register" class="nav-link" *ngIf="!serverService.loggedIn">Register</a>
+      </li>
+      <li class="nav-item ml-10">
+        <a class="nav-link" (click)="logout()" href="#" *ngIf="serverService.loggedIn">Logout</a>
+      </li>
+    </div>
+  </nav>
+  <div class="container mr-sm-2">
+    <router-outlet></router-outlet>
+  </div>
+</div>
