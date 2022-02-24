@@ -104,23 +104,39 @@ export class EmployeesListComponent implements OnInit {
         });
   }
   updateEmployee(): any{
+    console.log("EditValue Function Beginning:");
+    console.log(this.inputEditValue);
     this.employeesService.update(this.currentEmployee._id, this.inputEditValue)
       .subscribe(
         response => {
+          console.log("EditValue In Subscribe:");
+          console.log(this.inputEditValue);
           if(response.message !== 'Unauthorized'){
+            console.log("Modified");
           let index = 0;
+          console.log("Current Employee");
+          console.log(this.currentEmployee);
           for(let i = 0; i < this.employees.length; i++){
             if(this.employees[i]._id == this.currentEmployee._id){
+              console.log("Employee Vector");
+              console.log(this.employees[i]);
+              console.log("Employee Selected");
+              console.log(this.currentEmployee);
               index = i;
               break;
             }
           }
+          console.log("INDEX: "+index);
+          console.log("IV: ");
+          console.log(this.inputEditValue);
           for(var [key, value] of Object.entries(this.inputEditValue)){
             this.employees[index][key] = value;
+            console.log(this.employees[index]);
       }
 
           console.log(response);
           this.inputEditValue = {};
+          this.currentEmployee={};
           return true;
         }},
         error => {
@@ -128,6 +144,7 @@ export class EmployeesListComponent implements OnInit {
           console.log(error);
           return false;
         });
+        console.log("Dupa");
     return true;
   }
   openEdit(content, currentEmployee) {
@@ -151,8 +168,10 @@ export class EmployeesListComponent implements OnInit {
 
   private getDismissReason(reason: any): string {
     console.log("getDismissReason Function Called");
-    this.currentEmployee = {};
-    this.inputEditValue = {};
+    setTimeout(()=>{
+      this.inputEditValue = {};
+      this.currentEmployee={};
+    },1000);
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
@@ -175,6 +194,7 @@ export class EmployeesListComponent implements OnInit {
 
   submitEditEmployee(): void{
     if(this.updateEmployee()){
+      console.log("UE");
       /*let index = 0;
       for(let i = 0; i < this.employees.length; i++){
         if(this.employees[i]._id == this.currentEmployee._id){
@@ -185,8 +205,9 @@ export class EmployeesListComponent implements OnInit {
       for(var [key, value] of Object.entries(this.inputEditValue)){
         this.employees[index][key] = value;
       }*/
-      this.currentEmployee = {};
-      this.inputEditValue = {};
+      
+      console.log("Before erase");
+      console.log(this.inputEditValue);
       this.modalService.dismissAll();
       console.log(this.employees);
     }

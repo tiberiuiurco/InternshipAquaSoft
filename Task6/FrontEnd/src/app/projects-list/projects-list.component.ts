@@ -145,8 +145,10 @@ export class ProjectsListComponent implements OnInit {
 
   private getDismissReason(reason: any): string {
     console.log("getDismissReason Function Called");
-    this.currentProject = {};
-    this.inputEditValue = {};
+    setTimeout(()=>{
+      this.inputEditValue = {};
+      this.currentProject={};
+    },1000);
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
@@ -179,8 +181,6 @@ export class ProjectsListComponent implements OnInit {
       for(var [key, value] of Object.entries(this.inputEditValue)){
         this.projects[index][key] = value;
       }*/
-      this.currentProject = {};
-      this.inputEditValue = {};
       this.modalService.dismissAll();
       console.log(this.projects);
     }

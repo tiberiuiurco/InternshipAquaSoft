@@ -6,7 +6,7 @@
   "scripts": {
     "devStart": "nodemon server.js",
     "front": "cd task4 && npm start",
-    "start": "concurrently \"npm run devStart\" \"npm run front\""
+    "start": "concurrently \"npm run devStart\" \"ng serve -o --poll=2000\""
   },
   "author": "",
   "license": "ISC",
