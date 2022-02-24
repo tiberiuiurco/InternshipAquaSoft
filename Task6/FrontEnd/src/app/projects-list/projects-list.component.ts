@@ -81,7 +81,10 @@ export class ProjectsListComponent implements OnInit {
         },
         error => {
           console.log(error)
-          if(!(error.message==="Http failure response for http://localhost:5000/projects/6216a83ad395cc8ef97231e0: 401 Unauthorized")){
+          //console.log(error.status);
+          //console.log(!(error.message==="Http failure response for http://localhost:5000/projects/6216a83ad395cc8ef97231e0: 401 Unauthorized"));
+          //if(!(error.message==="Http failure response for http://localhost:5000/projects/6216a83ad395cc8ef97231e0: 401 Unauthorized")){
+          if(error.status !== 401 && error.status !== 403){
             this.deleteOk = false;
           }
           return false;
